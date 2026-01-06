@@ -1,4 +1,7 @@
 /* (C)2024 */
+import java.math.BigInteger;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,8 +23,18 @@ public class Challenges {
     ***** */
 
     public String readableTime(Integer seconds) {
-        // YOUR CODE HERE...
-        return "";
+        /*Initial solution
+        LocalTime dateToPrint = LocalTime.ofSecondOfDay(seconds);
+        return dateToPrint.toString();
+        */
+
+        //Another solution could be something such as
+        //Main change is that in this solution the variable "date" is redundant given that it's only purpose is to be initialized
+        //and then return a value that could all be made within the same return;
+
+        LocalTime dateToPrint = LocalTime.ofSecondOfDay(seconds);
+        String date = dateToPrint.toString();
+        return date;
     }
     ;
 
@@ -44,6 +57,13 @@ public class Challenges {
 
     public String[] circularArray(int index) {
         String[] COUNTRY_NAMES = {"Germany", "Norway", "Island", "Japan", "Israel"};
+        //The issue remain that given the index, we already know which values to "delete/storage" so that we can create a new array
+        // with those store values, so that remains my initial solution
+        String[] COUNTRY_NAMES_STORAGE = {};
+        for (var i = 0; i <= index; i++)
+        {
+        }
+
         // YOUR CODE HERE...
         return COUNTRY_NAMES;
     }
@@ -68,10 +88,24 @@ public class Challenges {
     because 1^1 + 2^2 + 3^3 + 4^4 + 5^5 + 6^6 + 7^7 + 8^8 + 9^9 + 10^10 = 10405071317
     The last 3 digits for the sum of powers from 1 to 10 is "317"
     ***** */
-
     public String ownPower(int number, int lastDigits) {
-        // YOUR CODE HERE...
-        return "";
+        double poweredNumber = 0;
+        for(int i = 1; i <= number; i++)
+        {
+            poweredNumber += Math.pow(i,i);
+        }
+        System.out.println("OwnPoweredNumberTest: " + poweredNumber);
+        String poweredStringNumber = Double.toString(poweredNumber);
+        //Now we must need to get the last digits a clever solution could be that given
+        //Strings kinda behave as Arrays, we can do the following
+
+        String lastDigitsString = "";
+        while(lastDigits > 0)
+        {
+            lastDigitsString =  lastDigitsString + poweredStringNumber.charAt(poweredStringNumber.length()-lastDigits);
+            lastDigits--;
+        }
+        return lastDigitsString;
     }
     ;
 
@@ -93,8 +127,43 @@ public class Challenges {
     ***** */
 
     public Integer digitSum(int n) {
-        // YOUR CODE HERE...
-        return 1;
+
+        Integer factorial = factorialFunction(n);
+        String factorialString = factorial.toString();
+
+        Integer digitSum = 0;
+
+        for (int i = 0; i < factorialString.length(); i++)
+        {
+            digitSum += Character.getNumericValue(factorialString.charAt(i));
+        }
+        System.out.println(" Test: "+ digitSum);
+        return digitSum;
+    }
+
+    public Integer factorialFunction(int n) {
+        Integer factorialResult = n;
+        //3 = n;
+        //3 - 1 > 0 = True;
+        // 3* 2 = 6;
+        //2-1 > 0 = True;
+        // 6*2 = 12;
+        while (n - 1 > 0)
+        {
+            factorialResult *= n-1;
+            n--;
+        }
+        return factorialResult;
+    }
+    public BigInteger factorialFunctionBigInteger(BigInteger n) {
+        BigInteger factorialResult = n;
+        //3 = n;
+        //3 - 1 > 0 = True;
+        // 3* 2 = 6;
+        //2-1 > 0 = True;
+        // 6*2 = 12;
+
+        return factorialResult;
     }
 
     /**
@@ -108,7 +177,20 @@ public class Challenges {
      */
     public String decrypt(List<Integer> ascivalues) {
         // YOUR CODE HERE...
-        return "";
+
+        String arrayDecrypted = "";
+        int lastSum = (int) ascivalues.getFirst();
+        for(int i = 0; i<ascivalues.size();i++)
+        {
+            if(i == 0){
+                arrayDecrypted+= (char) (int) ascivalues.get(i);
+            }
+            else {
+                lastSum = (int) ascivalues.get(i) + lastSum;
+                arrayDecrypted += (char) (int) lastSum;
+            }
+        }
+        return arrayDecrypted;
     }
 
     /**
@@ -122,6 +204,23 @@ public class Challenges {
      */
     public List<Integer> encrypt(String text) {
         // YOUR CODE HERE...
-        return Collections.emptyList();
+
+        List<Integer> encryptedList = new ArrayList<>();
+        int lastSubstraction;
+
+        for(int i = 0; i < text.length(); i++)
+        {
+
+            if(i == 0){
+                encryptedList.add((int)(text.charAt(i)));
+            }
+            else {
+                lastSubstraction = (int)(text.charAt(i)) - (int)(text.charAt(i-1));
+
+                encryptedList.add((int)(lastSubstraction));
+            }
+        }
+
+        return encryptedList;
     }
 }
