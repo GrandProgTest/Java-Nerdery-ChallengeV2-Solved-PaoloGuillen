@@ -1,6 +1,14 @@
 /* (C)2024 */
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import mocks.CallCostObject;
+import mocks.CallSummary;
 import mocks.CardWinner;
 import mocks.TotalSummary;
 
@@ -21,8 +29,22 @@ public class ChallengeStream {
      */
     public CardWinner calculateWinningHand(List<Integer> player1, List<Integer> player2) {
         // YOUR CODE HERE...
-        return new CardWinner();
+        CardWinner cardWinner = new CardWinner();
+
+
+        //Stream way of solving it (Right way according to the instructions XD)
+        Integer p1WinningHand = Integer.parseInt(player1.stream().sorted(Comparator.reverseOrder()).limit(2).map(String::valueOf).collect(Collectors.joining()));
+        Integer p2WinningHand = Integer.parseInt(player2.stream().sorted(Comparator.reverseOrder()).limit(2).map(String::valueOf).collect(Collectors.joining()));
+
+        if( p1WinningHand >p2WinningHand)
+        return new CardWinner("P1",p1WinningHand);
+        else if( p2WinningHand > p1WinningHand)
+            return new CardWinner("P2", p2WinningHand);
+        else
+            return  new CardWinner("TIE", p1WinningHand);
     }
+
+    //Adapted for lists
 
     /**
      * Design a solution to calculate what to pay for a set of phone calls. The function must receive an
@@ -43,7 +65,9 @@ public class ChallengeStream {
      * @returns {CallsResponse}  - Processed information
      */
     public TotalSummary calculateCost(List<CallCostObject> costObjectList) {
-        // YOUR CODE HERE...
+
+
+
         return new TotalSummary();
     }
 }

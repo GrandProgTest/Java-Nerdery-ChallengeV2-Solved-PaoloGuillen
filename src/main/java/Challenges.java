@@ -1,4 +1,5 @@
 /* (C)2024 */
+import java.io.Console;
 import java.math.BigInteger;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -91,14 +92,31 @@ public class Challenges {
         //The issue remain that given the index, we already know which values to "delete/storage" so that we can create a new array
         // with those store values, so that remains my initial solution or skip those
 
-        Stream<String> COUNTRY_NAMES_TWO = Arrays.stream(COUNTRY_NAMES).skip(index);
+        List<String> countryList = new ArrayList<>();
 
-        for (var i = 0; i < index; i++)
+        if(index >= COUNTRY_NAMES.length)
         {
+            index = index - COUNTRY_NAMES.length;
         }
+        String[] returningCountryArray = Arrays.stream(COUNTRY_NAMES)
+                .skip(index)
+                .toArray(String[]::new);
 
-        // YOUR CODE HERE...
-        return COUNTRY_NAMES;
+        for (int i = 0; i < returningCountryArray.length; i++)
+        {
+            countryList.add(returningCountryArray[i]);
+        }
+        System.out.println(countryList);
+
+        for (var i = 0; i < index ; i++)
+        {
+
+            countryList.add(COUNTRY_NAMES[i]);
+
+        }
+        System.out.println(countryList);
+
+        return countryList.toArray(String[]::new);
     }
     ;
 
@@ -122,6 +140,8 @@ public class Challenges {
     The last 3 digits for the sum of powers from 1 to 10 is "317"
     ***** */
     public String ownPower(int number, int lastDigits) {
+       //Initial expected solution
+        /*
         long poweredNumber = 0;
         for(int i = 1; i <= number; i++)
         {
@@ -139,6 +159,28 @@ public class Challenges {
             lastDigits--;
         }
         return lastDigitsString;
+       
+         */
+
+        //modulo solution
+        BigInteger poweredNumber = BigInteger.ZERO;
+
+        for (int i = 1; i <= number; i++) {
+            poweredNumber = poweredNumber.add(
+                    BigInteger.valueOf(i).pow(i)
+            );
+        }
+
+        System.out.println("OwnPoweredNumberTest: " + poweredNumber);
+        BigInteger mod = BigInteger.TEN.pow(lastDigits);
+
+        String s = poweredNumber.mod(mod).toString();
+        s = String.format("%0"+ lastDigits + "d",new BigInteger(s));
+        return s;
+        //Now we must need to get the last digits a clever solution could be that given
+        //Strings kinda behave as Arrays, we can do the following
+
+
     }
     ;
 
