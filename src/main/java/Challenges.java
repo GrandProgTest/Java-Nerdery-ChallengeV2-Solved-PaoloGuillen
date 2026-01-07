@@ -2,8 +2,10 @@
 import java.math.BigInteger;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 /* (C)2024 */
 public class Challenges {
@@ -32,11 +34,40 @@ public class Challenges {
         //Main change is that in this solution the variable "date" is redundant given that it's only purpose is to be initialized
         //and then return a value that could all be made within the same return;
 
-        LocalTime dateToPrint = LocalTime.ofSecondOfDay(seconds);
+        /*LocalTime dateToPrint = LocalTime.ofSecondOfDay(seconds);
         String date = dateToPrint.toString();
         return date;
+*/
+        //Another way that I found throughout the udemy course is that
+        //logically a minute = 60 seconds
+        //an hour equals to 60 minutes
+        //so we could do the following
+
+        Integer minutes = seconds / 60;
+        Integer hours = minutes / 60;
+        Integer remainingMinutes = minutes % 60;
+        Integer remainingSeconds = seconds % 60;
+        String appendedString = "";
+        appendedString += betterAppended(hours,false);
+        appendedString += betterAppended(remainingMinutes,false);
+        appendedString += betterAppended(remainingSeconds,true);
+        return  appendedString;
+
     }
-    ;
+    public String betterAppended(Integer n, boolean isSeconds)
+    {
+        String appendedString = "";
+
+        if(n > 10)
+        {
+            appendedString += Integer.toString(n) + (isSeconds ? "" : ":");
+        }
+        else
+        {
+            appendedString += "0" + n + (isSeconds ? "" : ":");
+        }
+        return appendedString;
+    }
 
     /* *****
     Challenge 2
@@ -58,9 +89,11 @@ public class Challenges {
     public String[] circularArray(int index) {
         String[] COUNTRY_NAMES = {"Germany", "Norway", "Island", "Japan", "Israel"};
         //The issue remain that given the index, we already know which values to "delete/storage" so that we can create a new array
-        // with those store values, so that remains my initial solution
-        String[] COUNTRY_NAMES_STORAGE = {};
-        for (var i = 0; i <= index; i++)
+        // with those store values, so that remains my initial solution or skip those
+
+        Stream<String> COUNTRY_NAMES_TWO = Arrays.stream(COUNTRY_NAMES).skip(index);
+
+        for (var i = 0; i < index; i++)
         {
         }
 
@@ -89,7 +122,7 @@ public class Challenges {
     The last 3 digits for the sum of powers from 1 to 10 is "317"
     ***** */
     public String ownPower(int number, int lastDigits) {
-        double poweredNumber = 0;
+        long poweredNumber = 0;
         for(int i = 1; i <= number; i++)
         {
             poweredNumber += Math.pow(i,i);
@@ -128,7 +161,7 @@ public class Challenges {
 
     public Integer digitSum(int n) {
 
-        Integer factorial = factorialFunction(n);
+        BigInteger factorial = factorialFunctionBigInteger(n);
         String factorialString = factorial.toString();
 
         Integer digitSum = 0;
@@ -155,13 +188,13 @@ public class Challenges {
         }
         return factorialResult;
     }
-    public BigInteger factorialFunctionBigInteger(BigInteger n) {
-        BigInteger factorialResult = n;
-        //3 = n;
-        //3 - 1 > 0 = True;
-        // 3* 2 = 6;
-        //2-1 > 0 = True;
-        // 6*2 = 12;
+    public BigInteger factorialFunctionBigInteger(int n) {
+        BigInteger factorialResult = BigInteger.ONE;
+
+        while (n > 1) {
+            factorialResult = factorialResult.multiply(BigInteger.valueOf(n));
+            n--;
+        }
 
         return factorialResult;
     }

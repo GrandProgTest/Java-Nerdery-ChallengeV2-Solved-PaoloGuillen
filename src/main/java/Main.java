@@ -16,4 +16,20 @@ public class Main {
         System.out.print("My char values are: " + mySimpleChar + " " + myUnicodeChar + " " + myDecimalChar);
 
     }
+
+    public boolean hasTeen (int n1,int n2, int n3)
+    {
+        if(isTeen(n1))
+            return true;
+        else if (isTeen(n2))
+            return true;
+        else if (isTeen(n3))
+            return true;
+        else
+            return false;
+    }
+
+    public boolean isTeen(int n){
+        return (n>=13 && n<=19);
+    }
 }
