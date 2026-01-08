@@ -67,7 +67,7 @@ public class ChallengeTest {
     @Test
     @Order(6)
     public void encryption() {
-        assertIterableEquals(Arrays.asList(72, 29, 7, 0, 3), challenges.encrypt("Hello"));
         assertIterableEquals(Arrays.asList(83, 34, -7, 5, -11, 1, 5, -9), challenges.encrypt("Sunshine"));
+        assertIterableEquals(Arrays.asList(72, 29, 7, 0, 3), challenges.encrypt("Hello"));
     }
 }
