@@ -1,8 +1,5 @@
 /* (C)2024 */
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -65,9 +62,27 @@ public class ChallengeStream {
      * @returns {CallsResponse}  - Processed information
      */
     public TotalSummary calculateCost(List<CallCostObject> costObjectList) {
+        List<CallSummary> summaries = costObjectList.stream()
+                .filter(c -> "National".equals(c.getType()) || "International".equals(c.getType()) || "Local".equals(c.getType()))
+                .map(c -> {
+                    double cost = 0.00;
+                    //Previous way of thinking I had was that if the call was less than 3 minutes then it must have
+                    //cost 7.56 or 1.20, then I realize that it was still a cost per minute XD
+                    if ("International".equals(c.getType())) {
+                        cost = (c.getDuration() <= 3 ? c.getDuration() * 7.56 : (3 * 7.56) + ((c.getDuration() - 3) * 3.03));
+                    } else if ("National".equals(c.getType())) {
+                        cost = (c.getDuration() <= 3 ? c.getDuration() * 1.20 : (3 * 1.20) + ((c.getDuration() - 3) * 0.48));
+                    } else if ("Local".equals(c.getType())) {
+                        cost = c.getDuration() * 0.2;
+                    }
+                    System.out.println("cost of: " + c.getType() + " " + c.getDuration() + " " + cost);
+                    return new CallSummary(c, cost);
+                })
+                .toList();
 
+        double totalSumCost = summaries.stream().mapToDouble(CallSummary::getTotalCost).sum();
+        System.out.println("Total sum cost: " + totalSumCost);
 
-
-        return new TotalSummary();
+        return new TotalSummary(summaries, summaries.size(), totalSumCost);
     }
 }
