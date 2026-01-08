@@ -16,7 +16,6 @@ public class FileJavaReaderJson {
         JSONFileBody jsonFileBody = objectMapper.readValue(WeatherStationsJsonFile, JSONFileBody.class);
         for(int i = 0; i<jsonFileBody.records.size(); i++)
         {
-            System.out.println("Weather station print try: "+ jsonFileBody.records.size());
         }
     }
 }

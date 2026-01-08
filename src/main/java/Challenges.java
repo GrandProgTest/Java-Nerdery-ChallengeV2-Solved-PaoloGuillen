@@ -106,7 +106,6 @@ public class Challenges {
         {
             countryList.add(returningCountryArray[i]);
         }
-        System.out.println(countryList);
 
         for (var i = 0; i < index ; i++)
         {
@@ -114,7 +113,6 @@ public class Challenges {
             countryList.add(COUNTRY_NAMES[i]);
 
         }
-        System.out.println(countryList);
 
         return countryList.toArray(String[]::new);
     }
@@ -147,7 +145,6 @@ public class Challenges {
         {
             poweredNumber += Math.pow(i,i);
         }
-        System.out.println("OwnPoweredNumberTest: " + poweredNumber);
         String poweredStringNumber = Double.toString(poweredNumber);
         //Now we must need to get the last digits a clever solution could be that given
         //Strings kinda behave as Arrays, we can do the following
@@ -171,7 +168,6 @@ public class Challenges {
             );
         }
 
-        System.out.println("OwnPoweredNumberTest: " + poweredNumber);
         BigInteger mod = BigInteger.TEN.pow(lastDigits);
 
         String s = poweredNumber.mod(mod).toString();
@@ -212,7 +208,6 @@ public class Challenges {
         {
             digitSum += Character.getNumericValue(factorialString.charAt(i));
         }
-        System.out.println(" Test: "+ digitSum);
         return digitSum;
     }
 

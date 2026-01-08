@@ -75,13 +75,11 @@ public class ChallengeStream {
                     } else if ("Local".equals(c.getType())) {
                         cost = c.getDuration() * 0.2;
                     }
-                    System.out.println("cost of: " + c.getType() + " " + c.getDuration() + " " + cost);
                     return new CallSummary(c, cost);
                 })
                 .toList();
 
         double totalSumCost = summaries.stream().mapToDouble(CallSummary::getTotalCost).sum();
-        System.out.println("Total sum cost: " + totalSumCost);
 
         return new TotalSummary(summaries, summaries.size(), totalSumCost);
     }
