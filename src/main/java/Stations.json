@@ -1,0 +1,108 @@
+{
+  "fields": [
+    {
+      "id": "_id",
+      "type": "int"
+    },
+    {
+      "id": "dev_id",
+      "type": "text"
+    },
+    {
+      "id": "name",
+      "type": "text"
+    },
+    {
+      "id": "location",
+      "type": "text"
+    },
+    {
+      "id": "keep_record",
+      "type": "text"
+    },
+    {
+      "id": "time",
+      "type": "text"
+    },
+    {
+      "id": "year",
+      "type": "text"
+    },
+    {
+      "id": "month",
+      "type": "text"
+    },
+    {
+      "id": "dayofweek",
+      "type": "text"
+    },
+    {
+      "id": "airtemp",
+      "type": "text"
+    },
+    {
+      "id": "atmosphericpressure",
+      "type": "text"
+    },
+    {
+      "id": "gustspeed",
+      "type": "text"
+    },
+    {
+      "id": "precipitation",
+      "type": "text"
+    },
+    {
+      "id": "relativehumidity",
+      "type": "text"
+    },
+    {
+      "id": "solar",
+      "type": "text"
+    },
+    {
+      "id": "strikedistance",
+      "type": "text"
+    },
+    {
+      "id": "strikes",
+      "type": "text"
+    },
+    {
+      "id": "vapourpressure",
+      "type": "text"
+    },
+    {
+      "id": "winddirection",
+      "type": "text"
+    },
+    {
+      "id": "windspeed",
+      "type": "text"
+    }
+  ],
+  "records": [
+    [
+      1,
+      "atmos22ee01",
+      "Brougham Street, Geelong",
+      "-38.1456638, 144.3587789",
+      "Y",
+      "2021-11-13T12:29:18+00:00",
+      "2021",
+      "Nov",
+      "Saturday",
+      "8.0",
+      "100.64",
+      "3.94",
+      "0.0",
+      "80.0",
+      "0.0",
+      "0.0",
+      "0.0",
+      "0.85",
+      "284.9",
+      "2.53"
+    ]
+  ]
+}
