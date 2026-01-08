@@ -61,7 +61,8 @@ public class ChallengeStream {
      *
      * @returns {CallsResponse}  - Processed information
      */
-    public TotalSummary calculateCost(List<CallCostObject> costObjectList) {
+    public TotalSummary calculateCost(List<CallCostObject> costObjectList)
+    {
         List<CallSummary> summaries = costObjectList.stream()
                 .filter(c -> "National".equals(c.getType()) || "International".equals(c.getType()) || "Local".equals(c.getType()))
                 .map(c -> {
