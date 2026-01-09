@@ -29,7 +29,6 @@ public class ChallengeStream {
         CardWinner cardWinner = new CardWinner();
 
 
-        //Stream way of solving it (Right way according to the instructions XD)
         Integer p1WinningHand = Integer.parseInt(player1.stream().sorted(Comparator.reverseOrder()).limit(2).map(String::valueOf).collect(Collectors.joining()));
         Integer p2WinningHand = Integer.parseInt(player2.stream().sorted(Comparator.reverseOrder()).limit(2).map(String::valueOf).collect(Collectors.joining()));
 
@@ -61,13 +60,13 @@ public class ChallengeStream {
      *
      * @returns {CallsResponse}  - Processed information
      */
-    public TotalSummary calculateCost(List<CallCostObject> costObjectList) {
+    public TotalSummary calculateCost(List<CallCostObject> costObjectList)
+    {
         List<CallSummary> summaries = costObjectList.stream()
                 .filter(c -> "National".equals(c.getType()) || "International".equals(c.getType()) || "Local".equals(c.getType()))
                 .map(c -> {
                     double cost = 0.00;
-                    //Previous way of thinking I had was that if the call was less than 3 minutes then it must have
-                    //cost 7.56 or 1.20, then I realize that it was still a cost per minute XD
+
                     if ("International".equals(c.getType())) {
                         cost = (c.getDuration() <= 3 ? c.getDuration() * 7.56 : (3 * 7.56) + ((c.getDuration() - 3) * 3.03));
                     } else if ("National".equals(c.getType())) {
