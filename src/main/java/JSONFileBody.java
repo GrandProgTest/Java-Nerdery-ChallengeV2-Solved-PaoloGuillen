@@ -5,5 +5,5 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JSONFileBody {
-    public List<List<WeatherStationEntity>> records;
+    public List<List<Object>> records;
 }
