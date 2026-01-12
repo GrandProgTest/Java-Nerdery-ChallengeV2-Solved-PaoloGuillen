@@ -9,6 +9,13 @@ import mocks.TotalSummary;
 
 public class ChallengeStream {
 
+    private static final double INTERNATIONAL_RATE_FIRST_3_MIN = 7.56;
+    private static final double INTERNATIONAL_RATE_ADDITIONAL_MIN = 3.03;
+    private static final double NATIONAL_RATE_FIRST_3_MIN = 1.20;
+    private static final double NATIONAL_RATE_ADDITIONAL_MIN = 0.48;
+    private static final double LOCAL_RATE_PER_MIN = 0.2;
+    private static final int FIRST_MINUTES_THRESHOLD = 3;
+
     /**
      * One stack containing five numbered cards from 0-9 are given to both players. Calculate which hand has winning number.
      * The winning number is calculated by which hard produces the highest two-digit number.
@@ -24,11 +31,9 @@ public class ChallengeStream {
      */
     public CardWinner calculateWinningHand(List<Integer> player1, List<Integer> player2) {
         // YOUR CODE HERE...
-        CardWinner cardWinner = new CardWinner();
 
-
-        Integer p1WinningHand = Integer.parseInt(player1.stream().sorted(Comparator.reverseOrder()).limit(2).map(String::valueOf).collect(Collectors.joining()));
-        Integer p2WinningHand = Integer.parseInt(player2.stream().sorted(Comparator.reverseOrder()).limit(2).map(String::valueOf).collect(Collectors.joining()));
+        Integer p1WinningHand = winningHandSimple(player1);
+        Integer p2WinningHand = winningHandSimple(player2);
 
         if( p1WinningHand >p2WinningHand)
         return new CardWinner("P1",p1WinningHand);
@@ -36,6 +41,11 @@ public class ChallengeStream {
             return new CardWinner("P2", p2WinningHand);
         else
             return  new CardWinner("TIE", p1WinningHand);
+    }
+
+    public Integer winningHandSimple(List<Integer> hand)
+    {
+        return Integer.parseInt(hand.stream().sorted(Comparator.reverseOrder()).limit(2).map(String::valueOf).collect(Collectors.joining()));
     }
 
     //Adapted for lists
@@ -66,11 +76,11 @@ public class ChallengeStream {
                     double cost = 0.00;
 
                     if ("International".equals(c.getType())) {
-                        cost = (c.getDuration() <= 3 ? c.getDuration() * 7.56 : (3 * 7.56) + ((c.getDuration() - 3) * 3.03));
+                        cost = getCostDuration(c.getDuration(), INTERNATIONAL_RATE_FIRST_3_MIN, INTERNATIONAL_RATE_ADDITIONAL_MIN);
                     } else if ("National".equals(c.getType())) {
-                        cost = (c.getDuration() <= 3 ? c.getDuration() * 1.20 : (3 * 1.20) + ((c.getDuration() - 3) * 0.48));
+                        cost = getCostDuration(c.getDuration(), NATIONAL_RATE_FIRST_3_MIN, NATIONAL_RATE_ADDITIONAL_MIN);
                     } else if ("Local".equals(c.getType())) {
-                        cost = c.getDuration() * 0.2;
+                        cost = c.getDuration() * LOCAL_RATE_PER_MIN;
                     }
                     return new CallSummary(c, cost);
                 })
@@ -79,5 +89,12 @@ public class ChallengeStream {
         double totalSumCost = summaries.stream().mapToDouble(CallSummary::getTotalCost).sum();
 
         return new TotalSummary(summaries, summaries.size(), totalSumCost);
+    }
+    public Double getCostDuration(Integer duration, Double rateFirst3Min, Double rateAdditionalMin) {
+        if (duration <= FIRST_MINUTES_THRESHOLD) {
+            return duration * rateFirst3Min;
+        } else {
+            return (FIRST_MINUTES_THRESHOLD * rateFirst3Min) + ((duration - FIRST_MINUTES_THRESHOLD) * rateAdditionalMin);
+        }
     }
 }

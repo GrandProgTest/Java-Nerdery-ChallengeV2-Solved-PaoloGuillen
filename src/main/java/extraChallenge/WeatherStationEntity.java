@@ -1,8 +1,7 @@
 package extraChallenge;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.util.Date;
+import java.util.List;
 
 public class WeatherStationEntity {
 
@@ -30,6 +29,31 @@ public class WeatherStationEntity {
 
     public WeatherStationEntity(){
 
+    }
+
+    public static WeatherStationEntity mapToEntity(List<Object> record) {
+        return new WeatherStationEntity(
+                (Integer) record.get(0),
+                record.get(1).toString(),
+                record.get(2).toString(),
+                record.get(3).toString(),
+                record.get(4).toString(),
+                OffsetDateTime.parse(record.get(5).toString()),
+                record.get(6).toString(),
+                record.get(7).toString(),
+                record.get(8).toString(),
+                record.get(9) != null ? Double.valueOf(record.get(9).toString()) : 0.0,
+                record.get(10) != null ? Double.valueOf(record.get(10).toString()) : 0.0,
+                record.get(11) != null ? Double.valueOf(record.get(11).toString()) : 0.0,
+                record.get(12) != null ? Double.valueOf(record.get(12).toString()) : 0.0,
+                record.get(13) != null ? Double.valueOf(record.get(13).toString()) : 0.0,
+                record.get(14) != null ? Double.valueOf(record.get(14).toString()) : 0.0,
+                record.get(15) != null ? Double.valueOf(record.get(15).toString()) : 0.0,
+                record.get(16) != null ? Double.valueOf(record.get(16).toString()) : 0.0,
+                record.get(17) != null ? Double.valueOf(record.get(17).toString()) : 0.0,
+                record.get(18) != null ? Double.valueOf(record.get(18).toString()) : 0.0,
+                record.get(19) != null ? Double.valueOf(record.get(19).toString()) : 0.0
+        );
     }
 
     public WeatherStationEntity(int _id, String dev_id, String name, String location, String keep_record, OffsetDateTime  time, String year, String month, String dayofweek, Double airtemp, Double atmosphericpressure, Double gustspeed, Double precipitation, Double relativehumidity, Double solar, Double strikedistance, Double strikes, Double vapourpressure, Double winddirection, Double windspeed) {

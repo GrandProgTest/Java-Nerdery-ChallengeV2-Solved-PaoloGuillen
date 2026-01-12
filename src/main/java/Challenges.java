@@ -1,12 +1,7 @@
 /* (C)2024 */
-import java.io.Console;
 import java.math.BigInteger;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 
 /* (C)2024 */
 public class Challenges {
@@ -32,26 +27,9 @@ public class Challenges {
         Integer hours = minutes / 60;
         Integer remainingMinutes = minutes % 60;
         Integer remainingSeconds = seconds % 60;
-        String appendedString = "";
-        appendedString += betterAppended(hours,false);
-        appendedString += betterAppended(remainingMinutes,false);
-        appendedString += betterAppended(remainingSeconds,true);
-        return  appendedString;
+        return String.format("%02d:%02d:%02d", hours, remainingMinutes, remainingSeconds);
 
-    }
-    public String betterAppended(Integer n, boolean isSeconds)
-    {
-        String appendedString = "";
 
-        if(n > 10)
-        {
-            appendedString += Integer.toString(n) + (isSeconds ? "" : ":");
-        }
-        else
-        {
-            appendedString += "0" + n + (isSeconds ? "" : ":");
-        }
-        return appendedString;
     }
 
     /* *****
@@ -108,17 +86,16 @@ public class Challenges {
     public String ownPower(int number, int lastDigits) {
 
         BigInteger poweredNumber = BigInteger.ZERO;
+        BigInteger mod = BigInteger.TEN.pow(lastDigits);
 
         for (int i = 1; i <= number; i++) {
             poweredNumber = poweredNumber.add(
-                    BigInteger.valueOf(i).pow(i)
+                    BigInteger.valueOf(i).modPow(BigInteger.valueOf(i), mod)
             );
         }
 
-        BigInteger mod = BigInteger.TEN.pow(lastDigits);
-
         String s = poweredNumber.mod(mod).toString();
-        s = String.format("%0"+ lastDigits + "d",new BigInteger(s));
+        s = String.format("%0"+ lastDigits + "d", new BigInteger(s));
         return s;
 
 
@@ -145,14 +122,13 @@ public class Challenges {
     public Integer digitSum(int n) {
 
         BigInteger factorial = factorialFunctionBigInteger(n);
-        String factorialString = factorial.toString();
+        int digitSum = 0;
 
-        Integer digitSum = 0;
-
-        for (int i = 0; i < factorialString.length(); i++)
-        {
-            digitSum += Character.getNumericValue(factorialString.charAt(i));
+        while (factorial.compareTo(BigInteger.ZERO) > 0) {
+            digitSum += factorial.mod(BigInteger.TEN).intValue();
+            factorial = factorial.divide(BigInteger.TEN);
         }
+
         return digitSum;
     }
     public BigInteger factorialFunctionBigInteger(int n) {
@@ -176,16 +152,19 @@ public class Challenges {
      * @param ascivalues  hand, player2 hand
      */
     public String decrypt(List<Integer> ascivalues) {
+        if (ascivalues == null || ascivalues.isEmpty()) {
+            return "";
+        }
         String arrayDecrypted = "";
-        int lastSum = (int) ascivalues.getFirst();
+        int lastSum = ascivalues.getFirst();
         for(int i = 0; i<ascivalues.size();i++)
         {
             if(i == 0){
-                arrayDecrypted+= (char) (int) ascivalues.get(i);
+                arrayDecrypted+= (char) lastSum;
             }
             else {
-                lastSum = (int) ascivalues.get(i) + lastSum;
-                arrayDecrypted += (char) (int) lastSum;
+                lastSum = ascivalues.get(i) + lastSum;
+                arrayDecrypted += (char) lastSum;
             }
         }
         return arrayDecrypted;
