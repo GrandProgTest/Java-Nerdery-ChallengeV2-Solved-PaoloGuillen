@@ -1,5 +1,9 @@
 package extraChallenge;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.util.Date;
+
 public class WeatherStationEntity {
 
 
@@ -8,7 +12,7 @@ public class WeatherStationEntity {
     public String name;
     public String location;
     public String keep_record;
-    public String time;
+    public OffsetDateTime time;
     public String year;
     public String month;
     public String dayofweek;
@@ -28,7 +32,7 @@ public class WeatherStationEntity {
 
     }
 
-    public WeatherStationEntity(int _id, String dev_id, String name, String location, String keep_record, String time, String year, String month, String dayofweek, Double airtemp, Double atmosphericpressure, Double gustspeed, Double precipitation, Double relativehumidity, Double solar, Double strikedistance, Double strikes, Double vapourpressure, Double winddirection, Double windspeed) {
+    public WeatherStationEntity(int _id, String dev_id, String name, String location, String keep_record, OffsetDateTime  time, String year, String month, String dayofweek, Double airtemp, Double atmosphericpressure, Double gustspeed, Double precipitation, Double relativehumidity, Double solar, Double strikedistance, Double strikes, Double vapourpressure, Double winddirection, Double windspeed) {
         this._id = _id;
         this.dev_id = dev_id;
         this.name = name;
@@ -91,11 +95,11 @@ public class WeatherStationEntity {
         this.keep_record = keep_record;
     }
 
-    public String getTime() {
+    public OffsetDateTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(OffsetDateTime time) {
         this.time = time;
     }
 

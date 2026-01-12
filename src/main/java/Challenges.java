@@ -73,30 +73,16 @@ public class Challenges {
 
     public String[] circularArray(int index) {
         String[] COUNTRY_NAMES = {"Germany", "Norway", "Island", "Japan", "Israel"};
+        int length = COUNTRY_NAMES.length;
 
-        List<String> countryList = new ArrayList<>();
+        index = index % length;
 
-        if(index >= COUNTRY_NAMES.length)
-        {
-            index = index - COUNTRY_NAMES.length;
-        }
-        String[] returningCountryArray = Arrays.stream(COUNTRY_NAMES)
-                .skip(index)
-                .toArray(String[]::new);
+        String[] result = new String[length];
 
-        for (int i = 0; i < returningCountryArray.length; i++)
-        {
-            countryList.add(returningCountryArray[i]);
-        }
+        System.arraycopy(COUNTRY_NAMES, index, result, 0, length - index);
+        System.arraycopy(COUNTRY_NAMES, 0, result, length - index, index);
 
-        for (var i = 0; i < index ; i++)
-        {
-
-            countryList.add(COUNTRY_NAMES[i]);
-
-        }
-
-        return countryList.toArray(String[]::new);
+        return result;
     }
     ;
 
