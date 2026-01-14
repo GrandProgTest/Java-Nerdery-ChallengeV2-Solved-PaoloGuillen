@@ -2,10 +2,9 @@ package extraChallenge;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.function.ToDoubleFunction;
 import java.util.stream.Collectors;
 
@@ -14,42 +13,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ExtraChallenge {
 
     public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Welcome to the Weather Stations terminal!");
-
-        while (true) {
-            System.out.println("Do you want to see every statistic? (YES / EXIT)");
-            String userInput = scanner.next();
-
-            if ("EXIT".equalsIgnoreCase(userInput)) {
-                System.out.println("Goodbye, see you soon!");
-                break;
-            }
-
-            if ("YES".equalsIgnoreCase(userInput)) {
-                System.out.println("Consider info per day or general (DAY / GENERAL / EXIT)");
-                userInput = scanner.next();
-
-                if ("EXIT".equalsIgnoreCase(userInput)) {
-                    System.out.println("Goodbye!");
-                    break;
-                }
-
-                if ("DAY".equalsIgnoreCase(userInput)) {
-                    JsonFileReader("DAY");
-                } else if ("GENERAL".equalsIgnoreCase(userInput)) {
-                    JsonFileReader(null);
-                } else {
-                    System.out.println("Invalid option. Please type DAY, GENERAL, or EXIT.");
-                }
-
-            } else {
-                System.out.println("Invalid input. Please type YES or EXIT.");
-            }
-        }
-
-        scanner.close();
+        long startTime = System.nanoTime();
+        
+        JsonFileReader(null);
+        
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime) / 1_000_000; 
+        System.out.printf("\nExecution time: %d ms%n", duration);
     }
 
 
@@ -58,12 +28,10 @@ public class ExtraChallenge {
         File WeatherStationsJsonFile = new File("src\\main\\java\\extraChallenge\\WeatherStations.json");
         JSONFileBody jsonFileBody = objectMapper.readValue(WeatherStationsJsonFile, JSONFileBody.class);
         List<List<Object>> records = jsonFileBody.records;
-        List<WeatherStationEntity> weatherStationEntities = new ArrayList<>();
-
-        for (List<Object> record : records) {
-            WeatherStationEntity entity = WeatherStationEntity.mapToEntity(record);
-            weatherStationEntities.add(entity);
-        }
+        
+        List<WeatherStationEntity> weatherStationEntities = records.parallelStream()
+                .map(WeatherStationEntity::mapToEntity)
+                .collect(Collectors.toList());
 
         if ("DAY".equalsIgnoreCase(considerDay)) {
             Map<String, List<WeatherStationEntity>> groupedByDay = weatherStationEntities.stream()
@@ -119,32 +87,14 @@ public class ExtraChallenge {
     }
 
     private static Object[] printStatistics(List<WeatherStationEntity> entities, ToDoubleFunction<WeatherStationEntity> metricFunction) {
+        DoubleSummaryStatistics stats = entities.parallelStream()
+                .mapToDouble(metricFunction)
+                .summaryStatistics();
+        
         return new Object[]{
-                calculateStatistic(entities, metricFunction, "average"),
-                calculateStatistic(entities, metricFunction, "max"),
-                calculateStatistic(entities, metricFunction, "min")
+                stats.getAverage(),
+                stats.getMax(),
+                stats.getMin()
         };
-    }
-
-    public static Double calculateStatistic(List<WeatherStationEntity> weatherStationEntities, ToDoubleFunction<WeatherStationEntity> metricFunction, String operation) {
-        switch (operation.toLowerCase()) {
-            case "average":
-                return weatherStationEntities.stream()
-                        .mapToDouble(metricFunction)
-                        .average()
-                        .orElse(0.0);
-            case "min":
-                return weatherStationEntities.stream()
-                        .mapToDouble(metricFunction)
-                        .min()
-                        .orElse(0.0);
-            case "max":
-                return weatherStationEntities.stream()
-                        .mapToDouble(metricFunction)
-                        .max()
-                        .orElse(0.0);
-            default:
-                throw new IllegalArgumentException("Invalid operation: " + operation);
-        }
     }
 }
