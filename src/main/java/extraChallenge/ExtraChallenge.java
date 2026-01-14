@@ -1,12 +1,15 @@
 package extraChallenge;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.function.ToDoubleFunction;
 import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ExtraChallenge {
 
@@ -77,6 +80,18 @@ public class ExtraChallenge {
     }
 
     private static void printWeatherStatistics(List<WeatherStationEntity> entities) {
+        Object[] airtemp = printStatistics(entities, WeatherStationEntity::getAirtemp);
+        Object[] atmosphericpressure = printStatistics(entities, WeatherStationEntity::getAtmosphericpressure);
+        Object[] gustspeed = printStatistics(entities, WeatherStationEntity::getGustspeed);
+        Object[] precipitation = printStatistics(entities, WeatherStationEntity::getPrecipitation);
+        Object[] relativehumidity = printStatistics(entities, WeatherStationEntity::getRelativehumidity);
+        Object[] solar = printStatistics(entities, WeatherStationEntity::getSolar);
+        Object[] strikedistance = printStatistics(entities, WeatherStationEntity::getStrikedistance);
+        Object[] strikes = printStatistics(entities, WeatherStationEntity::getStrikes);
+        Object[] vapourpressure = printStatistics(entities, WeatherStationEntity::getVapourpressure);
+        Object[] winddirection = printStatistics(entities, WeatherStationEntity::getWinddirection);
+        Object[] windspeed = printStatistics(entities, WeatherStationEntity::getWindspeed);
+
         System.out.printf(
                 "\u2022 Average Air Temperature: %.2f\n\u2022 Max Air Temperature: %.2f\n\u2022 Min Air Temperature: %.2f\n" +
                         "\u2022 Average Atmospheric Pressure: %.2f\n\u2022 Max Atmospheric Pressure: %.2f\n\u2022 Min Atmospheric Pressure: %.2f\n" +
@@ -89,17 +104,17 @@ public class ExtraChallenge {
                         "\u2022 Average Vapour Pressure: %.2f\n\u2022 Max Vapour Pressure: %.2f\n\u2022 Min Vapour Pressure: %.2f\n" +
                         "\u2022 Average Wind Direction: %.2f\n\u2022 Max Wind Direction: %.2f\n\u2022 Min Wind Direction: %.2f\n" +
                         "\u2022 Average Wind Speed: %.2f\n\u2022 Max Wind Speed: %.2f\n\u2022 Min Wind Speed: %.2f\n",
-                printStatistics(entities, WeatherStationEntity::getAirtemp),
-                printStatistics(entities, WeatherStationEntity::getAtmosphericpressure),
-                printStatistics(entities, WeatherStationEntity::getGustspeed),
-                printStatistics(entities, WeatherStationEntity::getPrecipitation),
-                printStatistics(entities, WeatherStationEntity::getRelativehumidity),
-                printStatistics(entities, WeatherStationEntity::getSolar),
-                printStatistics(entities, WeatherStationEntity::getStrikedistance),
-                printStatistics(entities, WeatherStationEntity::getStrikes),
-                printStatistics(entities, WeatherStationEntity::getVapourpressure),
-                printStatistics(entities, WeatherStationEntity::getWinddirection),
-                printStatistics(entities, WeatherStationEntity::getWindspeed)
+                airtemp[0], airtemp[1], airtemp[2],
+                atmosphericpressure[0], atmosphericpressure[1], atmosphericpressure[2],
+                gustspeed[0], gustspeed[1], gustspeed[2],
+                precipitation[0], precipitation[1], precipitation[2],
+                relativehumidity[0], relativehumidity[1], relativehumidity[2],
+                solar[0], solar[1], solar[2],
+                strikedistance[0], strikedistance[1], strikedistance[2],
+                strikes[0], strikes[1], strikes[2],
+                vapourpressure[0], vapourpressure[1], vapourpressure[2],
+                winddirection[0], winddirection[1], winddirection[2],
+                windspeed[0], windspeed[1], windspeed[2]
         );
     }
 
